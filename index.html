@@ -8,10 +8,34 @@
         {
             background-image: url("img/bg.jpg");
         }
+        #game-score
+        {
+            position: absolute;
+            left: 350px;
+            top: 18px;
+            font-size: 19px;
+            font-weight: bolder;
+            font-family: "Comic Sans MS",serif;
+            color: white;
+            user-select: none;
+        }
+        #score-text {
+            position: absolute;
+            left: 274px;
+            top: -3px;
+            font-size: 22px;
+            font-weight: bolder;
+            font-family: "Comic Sans MS", serif;
+            color: white;
+            user-select: none;
+        }
+
     </style>
 </head>
 <body>
 <canvas id="canvas" width="1066" height="600"></canvas>
 <script src="game.js"></script>
+<span id="game-score">0</span>
+<h2 id="score-text">Score:</h2>
 </body>
 </html>

@@ -13,7 +13,7 @@ const KEY_D  = 68;
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
-document.addEventListener("click", function () {
+canvas.addEventListener("click", function () {
     game.bullets.push(new Bullet(
         game.player.x + PLAYER_WIDTH + 2,
         game.player.y + PLAYER_HEIGHT / 2 - 60,
@@ -185,11 +185,6 @@ class Game
 {
     constructor(context) {
         this.ctx = context;
-        this.fps = 60;
-        this.step = 1 / this.fps;
-        this.now = 0;
-        this.lastTime = Helper._timestamp();
-        this.deltaTime = 0;
         this.shotSound = new Audio()
         this.shotSound.src = 'sound/shot.mp3';
         this.player = new Player(50,SCREEN_HEIGHT - PLAYER_HEIGHT, 5, this.ctx);
@@ -200,9 +195,10 @@ class Game
         //this.rains = [];
         this.zombies = [];
         this.zombieTimer = 1;
-        this.zombieSpawnInterval = 30;
+        this.zombieSpawnInterval = 35;
         this.rainTimer = 0;
         this.rainSpawnInterval = 1;
+        this.score = 0;
         this.keyStates = {};
         this.keyboardListen();
         this.loop();
@@ -210,17 +206,8 @@ class Game
 
     loop()
     {
-        this.now = Helper._timestamp();
-        this.deltaTime = this.deltaTime + Math.min(1, (this.now - this.lastTime) / 1000);
-
-        while (this.deltaTime > this.step)
-        {
-            this.deltaTime = this.deltaTime - this.step;
-            this.update();
-        }
-
+        this.update();
         this.draw(this.deltaTime);
-        this.lastTime = this.now;
         requestAnimationFrame(() => this.loop());
     }
 
@@ -303,6 +290,7 @@ class Game
                 {
                     Helper.removeIndex(this.zombies, index);
                     this.bullets[b].x = 2000;
+                    this._scoreUpdate(2)
                 }
             }
             zombie.update();
@@ -371,6 +359,12 @@ class Game
             this.player.x -= this.player.dx;
         }
 
+    }
+
+    _scoreUpdate(score)
+    {
+        this.score += score;
+        document.getElementById("game-score").innerText = '' + this.score
     }
 
 }
