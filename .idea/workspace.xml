@@ -48,7 +48,7 @@
       <option name="presentableId" value="Default" />
       <updated>1598343409687</updated>
       <workItem from="1598343410836" duration="16870000" />
-      <workItem from="1598597236536" duration="32000" />
+      <workItem from="1598597236536" duration="1036000" />
     </task>
     <servers />
   </component>
@@ -60,5 +60,9 @@
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
     <state x="602" y="16" width="716" height="999" key="find.popup/0.0.1920.1032@0.0.1920.1032" timestamp="1598343504067" />
+    <state x="531" y="227" key="run.anything.popup" timestamp="1598597912923">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="531" y="227" key="run.anything.popup/0.0.1920.1032@0.0.1920.1032" timestamp="1598597912923" />
   </component>
 </project>

@@ -82,7 +82,6 @@ class Helper
         sound.play().then(() => {}).catch(() => {})
     }
 }
-/*
 class Rain {
     constructor(x, y, dy, context) {
         this.x = x;
@@ -100,11 +99,10 @@ class Rain {
 
     draw()
     {
-        this.ctx.fillStyle = "rgb(255,255,255)";
+        this.ctx.fillStyle = "rgb(150,150,150)";
         this.ctx.fillRect(this.x, this.y, this.w, this.h);
     }
 }
-*/
 class Zombie
 {
     constructor(x, y, dx, context) {
@@ -189,10 +187,10 @@ class Game
         this.shotSound.src = 'sound/shot.mp3';
         this.player = new Player(50,SCREEN_HEIGHT - PLAYER_HEIGHT, 5, this.ctx);
         this.bullet = new Bullet(2000, this.player.y + PLAYER_HEIGHT / 2 - 60, 12, this.ctx);
-        //this.rain = new Rain(Math.floor(Math.random() * 800), 16, 5, this.ctx);
+        this.rain = new Rain(Math.floor(Math.random() * 800), 16, 5, this.ctx);
         this.zombie = new Zombie(2000,3000, 2, this.ctx)
         this.bullets = [];
-        //this.rains = [];
+        this.rains = [];
         this.zombies = [];
         this.zombieTimer = 1;
         this.zombieSpawnInterval = 35;
@@ -247,15 +245,14 @@ class Game
                 Helper.removeIndex(this.bullets, index);
             }
         })
-        /*
         this.rain.update();
 
         if (this.rainTimer % this.rainSpawnInterval === 0)
         {
             this.rains.push(new Rain(
                 Math.floor(Math.random() * SCREEN_WIDTH),
-                10,
-                Helper.getRandomInt(5, 7),
+                -20,
+                Helper.getRandomInt(8, 10),
                 this.ctx
             ));
 
@@ -273,7 +270,6 @@ class Game
             }
             rain.update();
         });
-        */
         this.zombies.forEach((zombie, index) => {
             zombie.x -= zombie.dx;
             if (zombie.x < -ZOMBIE_WIDTH)
@@ -300,7 +296,6 @@ class Game
     draw()
     {
         this.ctx.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-        /*
         for (let i in this.rains)
         {
             if (this.rains.hasOwnProperty(i))
@@ -308,7 +303,6 @@ class Game
                 this.rains[i].draw();
             }
         }
-        */
         //this.rain.draw();
         this.player.draw();
         this.zombie.draw();
