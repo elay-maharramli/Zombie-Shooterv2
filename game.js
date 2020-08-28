@@ -10,6 +10,9 @@ const SCREEN_HEIGHT = 600;
 const KEY_A = 65;
 const KEY_D  = 68;
 
+const KEY_LEFT = 37;
+const KEY_RIGHT  = 39;
+
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
@@ -363,12 +366,12 @@ class Game
 
     handleInput()
     {
-        if (this.keyStates[KEY_D])
+        if (this.keyStates[KEY_D] || this.keyStates[KEY_RIGHT])
         {
             this.player.x += this.player.dx;
         }
 
-        if (this.keyStates[KEY_A])
+        if (this.keyStates[KEY_A] || this.keyStates[KEY_LEFT])
         {
             this.player.x -= this.player.dx;
         }
