@@ -23,7 +23,10 @@ canvas.addEventListener("click", function () {
         12,
         ctx
     ));
-    Helper.playSound(game.shotSound);
+    if (game.over === false)
+    {
+        Helper.playSound(game.shotSound);
+    }
 })
 
 class Helper
@@ -197,11 +200,15 @@ class Game
         this.zombies = [];
         this.zombieTimer = 1;
         this.zombieSpawnInterval = 35;
+        this.zombieSpawnIntervalLimit = 15;
         this.rainTimer = 0;
         this.rainSpawnInterval = 1;
+        this.speedLimitA = 3;
+        this.speedLimitB = 5;
         this.score = 0;
         this.lifes = 3;
         this.keyStates = {};
+        this.over = false
         this.keyboardListen();
         this.loop();
     }
@@ -215,6 +222,7 @@ class Game
             this.ctx.font = "70px Lucida Sans Typewriter";
             this.ctx.fillStyle = "red";
             this.ctx.fillText("Game Over!", 360, 325);
+            this.over = true;
             return;
         }
         requestAnimationFrame(() => this.loop());
@@ -232,12 +240,13 @@ class Game
             this.zombies.push(new Zombie(
                 SCREEN_WIDTH - PLAYER_WIDTH + 140,
                 SCREEN_HEIGHT - PLAYER_HEIGHT - 10,
-                Helper.getRandomInt(3,5),
+                Helper.getRandomInt(this.speedLimitA,this.speedLimitB),
                 this.ctx
             ));
             this.zombieTimer = 0;
         }
         this.zombieTimer++;
+
         if (this.player.x <= -5)
         {
             this.player.x += this.player.dx;
@@ -297,7 +306,16 @@ class Game
                 {
                     Helper.removeIndex(this.zombies, index);
                     this.bullets[b].x = 2000;
-                    this._scoreUpdate(2)
+                    this._scoreUpdate(1)
+                    if (this.score % 20 === 0)
+                    {
+                        if (this.zombieSpawnInterval > this.zombieSpawnIntervalLimit)
+                        {
+                            this.zombieSpawnInterval -= 1;
+                            this.speedLimitA += 1;
+                            this.speedLimitB += 1;
+                        }
+                    }
                 }
             }
             const zombieCenterX = zombie.x + zombie.w / 2;
