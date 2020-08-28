@@ -197,6 +197,7 @@ class Game
         this.rainTimer = 0;
         this.rainSpawnInterval = 1;
         this.score = 0;
+        this.lifes = 3;
         this.keyStates = {};
         this.keyboardListen();
         this.loop();
@@ -205,7 +206,14 @@ class Game
     loop()
     {
         this.update();
-        this.draw(this.deltaTime);
+        this.draw();
+        if (this.lifes === 0)
+        {
+            this.ctx.font = "70px Lucida Sans Typewriter";
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText("Game Over!", 360, 325);
+            return;
+        }
         requestAnimationFrame(() => this.loop());
     }
 
@@ -289,6 +297,18 @@ class Game
                     this._scoreUpdate(2)
                 }
             }
+            const zombieCenterX = zombie.x + zombie.w / 2;
+            const zombieCenterY = zombie.y + zombie.h / 2;
+            if (
+                zombieCenterX >= this.player.x &&
+                zombieCenterX <= this.player.x + this.player.w &&
+                zombieCenterY >= this.player.y &&
+                zombieCenterY <= this.player.y + this.player.h
+            )
+            {
+                this._lifeUpdate(1);
+                Helper.removeIndex(this.zombies, index);
+            }
             zombie.update();
         })
     }
@@ -359,6 +379,12 @@ class Game
     {
         this.score += score;
         document.getElementById("game-score").innerText = '' + this.score
+    }
+
+    _lifeUpdate(life)
+    {
+        this.lifes -= life
+        document.getElementById("player-life").innerText = '' + this.lifes
     }
 
 }
