@@ -38,26 +38,6 @@ class Helper
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    static mouseLeftClick(evt)
-    {
-        let flag = false;
-
-        evt = evt || window.event;
-
-        if ('buttons' in evt)
-        {
-            flag = evt.buttons === 1;
-        }
-
-        if (!flag)
-        {
-            let button = evt.which || evt.button;
-
-            flag = button === 1;
-        }
-
-        return flag;
-    }
 
     static _timestamp()
     {
@@ -111,15 +91,14 @@ class Rain {
 }
 class Zombie
 {
-    constructor(x, y, dx, context) {
+    constructor(x, y, dx, img, context) {
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.w = ZOMBIE_WIDTH;
         this.h = ZOMBIE_HEIGHT;
-        this.img = new Image();
-        this.img.src = "img/zombie.png";
         this.ctx = context;
+        this.img = img;
     }
 
     update()
@@ -161,7 +140,7 @@ class Bullet
 class Player
 {
     constructor(x, y, dx, context) {
-        this.x= x;
+        this.x = x;
         this.y = y;
         this.dx = dx;
         this.w = PLAYER_WIDTH;
@@ -189,12 +168,18 @@ class Game
 {
     constructor(context) {
         this.ctx = context;
+        this.fps = 60;
+        this.step = 1 / this.fps;
+        this.now = 0;
+        this.lastTime = Helper._timestamp();
+        this.deltaTime = 0;
         this.shotSound = new Audio()
         this.shotSound.src = 'sound/shot.mp3';
         this.player = new Player(50,SCREEN_HEIGHT - PLAYER_HEIGHT, 5, this.ctx);
         this.bullet = new Bullet(2000, this.player.y + PLAYER_HEIGHT / 2 - 60, 12, this.ctx);
         this.rain = new Rain(Math.floor(Math.random() * 800), 16, 5, this.ctx);
-        this.zombie = new Zombie(2000,3000, 2, this.ctx)
+        this.zombieImg = new Image();
+        this.zombieImg.src = "img/zombie.png";
         this.bullets = [];
         this.rains = [];
         this.zombies = [];
@@ -215,8 +200,18 @@ class Game
 
     loop()
     {
-        this.update();
-        this.draw();
+        this.now = Helper._timestamp();
+        this.deltaTime = this.deltaTime + Math.min(1, (this.now - this.lastTime) / 1000);
+
+        while (this.deltaTime > this.step)
+        {
+            this.deltaTime = this.deltaTime - this.step;
+            this.update(this.step);
+        }
+
+        this.draw(this.deltaTime);
+        this.lastTime = this.now;
+
         if (this.lifes === 0)
         {
             this.ctx.font = "70px Lucida Sans Typewriter";
@@ -231,7 +226,6 @@ class Game
     update()
     {
         this.player.update();
-        this.zombie.update();
         this.bullet.update();
         this.handleInput();
 
@@ -241,6 +235,7 @@ class Game
                 SCREEN_WIDTH - PLAYER_WIDTH + 140,
                 SCREEN_HEIGHT - PLAYER_HEIGHT - 10,
                 Helper.getRandomInt(this.speedLimitA,this.speedLimitB),
+                this.zombieImg,
                 this.ctx
             ));
             this.zombieTimer = 0;
@@ -298,8 +293,6 @@ class Game
             }
             for (let b in this.bullets)
             {
-                const zombieCenterX = zombie.x + zombie.w / 2;
-                const zombieCenterY = zombie.y + zombie.h / 2;
                 if (zombie.x >= this.bullets[b].x &&
                     zombie.x <= this.bullets[b].x + this.bullets[b].w
                 )
@@ -346,7 +339,6 @@ class Game
         }
         //this.rain.draw();
         this.player.draw();
-        this.zombie.draw();
         this.bullet.draw();
 
         for (let b in this.bullets)

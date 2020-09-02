@@ -4,6 +4,8 @@
     <list default="true" id="855c87ec-fdc4-4844-a50a-6b1c1436dd87" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/player.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/player.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/zombie.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/zombie.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +50,12 @@
       <updated>1598343409687</updated>
       <workItem from="1598343410836" duration="16870000" />
       <workItem from="1598597236536" duration="1534000" />
-      <workItem from="1598600622451" duration="7912000" />
+      <workItem from="1598600622451" duration="8263000" />
+      <workItem from="1598682475092" duration="849000" />
+      <workItem from="1598687651683" duration="2222000" />
+      <workItem from="1598760527688" duration="5000" />
+      <workItem from="1598898230196" duration="2156000" />
+      <workItem from="1599036341411" duration="194000" />
     </task>
     <servers />
   </component>
